@@ -1,0 +1,10 @@
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8082:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+
+  cache:
+    image: redis:alpine
