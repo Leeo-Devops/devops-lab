@@ -91,3 +91,31 @@
 - Derrubei tudo com `docker compose down`.
 
 **Lógica:** O Compose lê o YAML, cria uma rede isolada e sobe todos os serviços de uma vez. O `volumes` mapeia a pasta local para dentro do container. É a base do que o Kubernetes faz, mas local e mais simples.
+## Fase 5: Kubernetes (31/10/2026)
+- Instalei kubectl e K3d.
+- Criei um cluster local com 1 server e 3 agents (4 nós).
+- Fiz o deploy de um Nginx com 2 réplicas.
+- Expus o serviço e acessei via `kubectl port-forward`.
+- Aprendi que a porta 8080 já estava ocupada pelo LoadBalancer do K3d e usei a 8081.
+
+**Lógica:** O Kubernetes orquestra containers. O Deployment mantém o estado desejado (2 réplicas), o Service expõe os pods de forma estável, e o port-forward cria um túnel para debug local.
+## Kubernetes: Ingress, ConfigMap e Secret (31/10/2026)
+- Criei um ConfigMap e um Secret para separar configuração e dados sensíveis.
+- Instalei o Nginx Ingress Controller via Helm.
+- Criei um recurso Ingress para rotear o tráfego do host `devopero.local` para o serviço `nginx-web`.
+- Testei o roteamento com `curl -H "Host: devopero.local"`.
+## Kubernetes: Ingress, ConfigMap e Secret (31/10/2026)
+- Criei um ConfigMap (nginx-config) e um Secret (nginx-secret).
+- Instalei o Nginx Ingress Controller via Helm.
+- Criei um recurso Ingress roteando o host `devopero.local` para o serviço `nginx-web`.
+- Testei com `curl -H "Host: devopero.local"` e o Nginx respondeu corretamente.
+
+**Lógica:** O Ingress é a porta de entrada do cluster. Ele lê o cabeçalho HTTP Host e decide para qual serviço interno encaminhar a requisição. O ConfigMap e o Secret mantêm a configuração separada da imagem do container.
+## Kubernetes: Persistência (PV e PVC) - 08/11/2026
+- Criei um PersistentVolumeClaim (nginx-pvc) pedindo 1Gi de espaço.
+- O cluster provisionou automaticamente usando a StorageClass local-path.
+- Atualizei o Deployment do Nginx para montar esse volume.
+- Escrevi um arquivo dentro do container e matei o Pod.
+- O Kubernetes recriou o Pod e o arquivo continuou lá. Persistência confirmada!
+
+**Lógica:** O PV é o disco físico. O PVC é o pedido. O Deployment monta o PVC dentro do container. Quando o Pod morre, o PVC e os dados continuam intactos e são remontados no próximo Pod.
