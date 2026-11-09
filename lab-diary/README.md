@@ -119,3 +119,11 @@
 - O Kubernetes recriou o Pod e o arquivo continuou lá. Persistência confirmada!
 
 **Lógica:** O PV é o disco físico. O PVC é o pedido. O Deployment monta o PVC dentro do container. Quando o Pod morre, o PVC e os dados continuam intactos e são remontados no próximo Pod.
+## Kubernetes: Troubleshooting (09/11/2026)
+- Simulei um erro de CrashLoopBackOff (pod reiniciando infinitamente).
+- Usei `kubectl describe pod` para ver os Eventos.
+- Usei `kubectl logs` para ver a saída do container.
+- Corrigi o deployment com `kubectl patch` (substituindo o comando errado).
+- O pod voltou para o status `Running`.
+
+**Lógica:** O CrashLoopBackOff ocorre quando o processo principal do container morre. O Kubernetes tenta reiniciar, mas se falhar várias vezes, entra em backoff (espera cada vez mais tempo entre tentativas). A solução é corrigir a causa raiz (comando errado, falta de variável, etc.).
