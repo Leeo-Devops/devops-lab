@@ -34,3 +34,9 @@ Cada pasta possui seus próprios arquivos. Para testar a orquestração:
 cd compose-lab
 docker compose up -d
 
+### 3. Kubernetes (`k8s-lab`)
+- Cluster K3d local com 4 nós (1 server, 3 agents).
+- Deployments, Services e Ingress Controller.
+- Gerenciamento de configurações (ConfigMap e Secret).
+- Persistência de dados com PersistentVolumeClaim (PVC).
+- Simulação e resolução de erros (CrashLoopBackOff).
